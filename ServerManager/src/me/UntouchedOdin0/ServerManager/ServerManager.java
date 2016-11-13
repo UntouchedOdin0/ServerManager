@@ -1,7 +1,5 @@
 package me.UntouchedOdin0.ServerManager;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -43,29 +40,22 @@ public class ServerManager extends JavaPlugin implements Listener{
 	
 	public void openGUI(Player p) 
 	{
-		Inventory inv = Bukkit.createInventory(null, 36, ChatColor.BLACK + "ServerManager Settings");
-	    
-		ItemStack tps = new ItemStack(Material.SKULL);
-	    ItemMeta tpsName = tps.getItemMeta();
-	    tpsName.setDisplayName(ChatColor.GREEN + "Player count: " + Bukkit.getOnlinePlayers().size() + ChatColor.YELLOW + " ");
-	    tps.setItemMeta(tpsName);
-	    
+		Inventory inv = Bukkit.createInventory(null, 36, this.getConfig().getString("title-name"));
 	    ItemStack firstPlayed = new ItemStack(Material.PAPER);
 	    ItemMeta firstPlayedName = firstPlayed.getItemMeta();
-	    firstPlayedName.setDisplayName(ChatColor.GREEN + "Join Date: " + ChatColor.YELLOW + p.getFirstPlayed() + "");
+	    firstPlayedName.setDisplayName(ChatColor.GREEN + "Plugins: " + Bukkit.getPluginManager().getPlugins().length + " ");
 	    
-	    inv.addItem(tps);
-	    inv.addItem(firstPlayed);
+	    inv.setItem(1, firstPlayed);
 	    
 	    p.openInventory(inv);
 	}
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getInventory() != null && e.getInventory().getType() == InventoryType.CHEST){
+		if (e.getInventory().getTitle().equals(this.getConfig().getString("title-name")));
 			e.setCancelled(true);
 		}
-			}
+	
 		
 		   
 	
