@@ -1,0 +1,11 @@
+main: me.UntouchedOdin0.ServerManager.ServerManager
+name: ServerManager
+version: '1.0'
+database: false
+description: >
+             Server Manager.
+commands:
+ servermanager:
+  description: This is the command too open the Inventory.
+ sm:
+  description: This is the command too open the Inventory.
