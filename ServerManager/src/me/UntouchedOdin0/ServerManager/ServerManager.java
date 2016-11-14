@@ -1,5 +1,7 @@
 package me.UntouchedOdin0.ServerManager;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,6 +26,11 @@ public class ServerManager extends JavaPlugin implements Listener{
 	{
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(this, this);
+		
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			Bukkit.getServer().getLogger().log(null, "PlaceholderAPI has been found!");
+			Bukkit.getServer().getLogger().log(null, "hooking into it for Placeholders!");
+		}
 	}
 	
     public TokenEnchant getTokenEnchant() {
@@ -40,21 +47,61 @@ public class ServerManager extends JavaPlugin implements Listener{
 	
 	public void openGUI(Player p) 
 	{
-		Inventory inv = Bukkit.createInventory(null, 36, this.getConfig().getString("title-name"));
+		Inventory inv = Bukkit.createInventory(null, 36, this.getConfig().getString(ChatColor.stripColor("title-name")));
 	    ItemStack firstPlayed = new ItemStack(Material.PAPER);
 	    ItemMeta firstPlayedName = firstPlayed.getItemMeta();
-	    firstPlayedName.setDisplayName(ChatColor.GREEN + "Plugins: " + Bukkit.getPluginManager().getPlugins().length + " ");
+	    firstPlayedName.setDisplayName("" + ChatColor.GREEN + "Plugins: " + Bukkit.getPluginManager().getPlugins().length + " ");
 	    
-	    inv.setItem(1, firstPlayed);
+	    ItemStack test = new ItemStack(Material.DAYLIGHT_DETECTOR);
+	    ItemMeta testName = test.getItemMeta();
+	    testName.setDisplayName(ChatColor.RED + "Time");
+	    
+	    ItemStack creators = new ItemStack(Material.SKULL);
+	    ItemMeta creatorsName = creators.getItemMeta();
+	    creatorsName.setDisplayName(ChatColor.YELLOW + "The founder is:" + ChatColor.GREEN + " Untouchedodin0");
+	    
+	    inv.setItem(0, firstPlayed);
+	    inv.setItem(1, test);
+	    inv.setItem(5, creators);
 	    
 	    p.openInventory(inv);
+	    
+	}
+	public void openGUIc(Player p)
+	{
+		Inventory Creators = Bukkit.createInventory(null, 9, ChatColor.BLACK + "Developers of this plugin:");
+		
+		ItemStack odin = new ItemStack(Material.SKULL);
+		ItemMeta odinName = odin.getItemMeta();
+		odinName.setDisplayName(ChatColor.GREEN + "UntouchedOdin0");
+		odinName.setLore(Arrays.asList(ChatColor.YELLOW + "UntouchedOdin0 is the creator."));
+		
+		p.openInventory(Creators);
 	}
 	
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getInventory().getTitle().equals(this.getConfig().getString("title-name")));
-			e.setCancelled(true);
-		}
+	 @EventHandler
+	  public void onInventoryClickEvent(InventoryClickEvent event)
+	  {
+	    if (!ChatColor.stripColor(event.getInventory().getName()).equalsIgnoreCase("Chat Control")) {
+	      return;
+	    }
+	    Player player = (Player)event.getWhoClicked();
+	    event.setCancelled(true);
+	    if ((event.getCurrentItem() == null) || (event.getCurrentItem().getType() == Material.AIR) || (!event.getCurrentItem().hasItemMeta()))
+	    {
+	      player.closeInventory();
+	      return;
+	    }
+	    switch (event.getCurrentItem().getType())
+	    {
+	    case STONE_BUTTON: 
+	      player.sendMessage(ChatColor.YELLOW + "That's you right?");
+	      player.closeInventory();
+	      break;
+		default:
+			break;
+	    }
+	  }
 	
 		
 		   
@@ -64,10 +111,6 @@ public class ServerManager extends JavaPlugin implements Listener{
 	  {
 	    if ((cmd.getName().equalsIgnoreCase("servermanager"))) {
 	      openGUI((Player)sender); 
-	      
-	      if((cmd.getName().equalsIgnoreCase("sm"))) {
-	    	  openGUI((Player)sender);
-	      }
 	    }
 	    return true;
 	  }

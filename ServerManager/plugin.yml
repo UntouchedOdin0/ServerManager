@@ -1,11 +1,17 @@
 main: me.UntouchedOdin0.ServerManager.ServerManager
 name: ServerManager
-version: '1.0'
+version: '1.0.2'
 database: false
 description: >
              Server Manager.
+softdepend: [PlaceholderAPI]
+
 commands:
  servermanager:
   description: This is the command too open the Inventory.
- sm:
-  description: This is the command too open the Inventory.
+ skick:
+  description: Kick the players who have been naughty.
+ broadcast:
+  description: Broadcasts a message to the whole server.
+ lag:
+  description: Information to help find any lag problems.
