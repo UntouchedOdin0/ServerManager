@@ -46,8 +46,9 @@ public class ServerManager extends JavaPlugin implements Listener{
 	Player pl;
 	
 	public void openGUI(Player p) 
-	{
+	{	
 		Inventory inv = Bukkit.createInventory(null, 36, this.getConfig().getString(ChatColor.stripColor("title-name")));
+		Inventory inv2 = Bukkit.createInventory(null, 36, this.getConfig().getString(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes(""));
 	    ItemStack firstPlayed = new ItemStack(Material.PAPER);
 	    ItemMeta firstPlayedName = firstPlayed.getItemMeta();
 	    firstPlayedName.setDisplayName("" + ChatColor.GREEN + "Plugins: " + Bukkit.getPluginManager().getPlugins().length + " ");
@@ -94,8 +95,9 @@ public class ServerManager extends JavaPlugin implements Listener{
 	    }
 	    switch (event.getCurrentItem().getType())
 	    {
-	    case STONE_BUTTON: 
+	    case PAPER: 
 	      player.sendMessage(ChatColor.YELLOW + "That's you right?");
+	      event.setCancelled(true);
 	      player.closeInventory();
 	      break;
 		default:
